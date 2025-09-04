@@ -1,0 +1,15 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+ <!-- Rounded square background -->
+
+ <!-- Open book symbol (centered) - TALLER -->
+ <!-- Left page (black) -->
+ <!-- Right page (blue) -->
+ <!-- Subtle inner spine -->
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_1" fill="#ff7a00" ry="160" rx="160" height="896" width="896" y="64" x="64"/>
+  <path id="svg_2" fill="#cc5c00" d="m512,740c-82,-48 -176,-72 -248,-88l0,-352c100,24 178,54 248,108l0,332z"/>
+  <path id="svg_3" fill="#ffa94d" d="m512,740c82,-48 176,-72 248,-88l0,-352c-100,24 -178,54 -248,108l0,332z"/>
+  <rect id="svg_4" opacity="0.95" fill="#ff7a00" rx="8" height="344" width="16" y="396" x="504"/>
+ </g>
+</svg>

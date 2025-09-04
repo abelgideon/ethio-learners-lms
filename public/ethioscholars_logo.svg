@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded square background -->
+  <rect x="64" y="64" width="896" height="896" rx="160" ry="160" fill="#3E7CB1"/>
+  
+  <!-- Open book symbol (centered) - TALLER -->
+  <!-- Left page (black) -->
+  <path d="
+    M512 740
+    C 430 692, 336 668, 264 652
+    L 264 300
+    C 364 324, 442 354, 512 408
+    Z" fill="#111111"/>
+  
+  <!-- Right page (blue) -->
+  <path d="
+    M512 740
+    C 594 692, 688 668, 760 652
+    L 760 300
+    C 660 324, 582 354, 512 408
+    Z" fill="#1E64B7"/>
+  
+  <!-- Subtle inner spine -->
+  <rect x="504" y="396" width="16" height="344" rx="8" fill="#3E7CB1" opacity="0.95"/>
+</svg>
