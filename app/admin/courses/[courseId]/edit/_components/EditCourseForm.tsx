@@ -171,7 +171,11 @@ export default function EditCourseForm({ data }: iAppProps) {
             <FormItem>
               <FormLabel>Thumbnail Image</FormLabel>
               <FormControl>
-                <Uploader onChange={field.onChange} value={field.value} />
+                <Uploader
+                  fileTypeAccepted="image"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
