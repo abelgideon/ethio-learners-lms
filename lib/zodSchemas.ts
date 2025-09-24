@@ -28,7 +28,7 @@ export const courseSchema = z.object({
     .string()
     .min(3, { message: "Description must be at least 3 characters" }),
   fileKey: z.string().min(1, { message: "File is required" }),
-  price: z.number().min(100, { message: "Price must be at least 100" }),
+  price: z.number().min(5, { message: "Price must be at least 5" }),
   duration: z
     .number()
     .min(1, { message: "Duration must be at least 1 hour" })

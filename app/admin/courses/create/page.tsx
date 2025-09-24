@@ -290,7 +290,7 @@ export default function CourseCreationPage() {
                   name="price"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Price (birr)</FormLabel>
+                      <FormLabel>Price ($)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Price"

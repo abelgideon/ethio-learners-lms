@@ -164,9 +164,9 @@ export default async function SlugPage({ params }: { params: Params }) {
               <div className="flex items-center justify-between mb-6">
                 <span className="text-lg font-medium">Price:</span>
                 <span className="text-2xl font-bold text-primary">
-                  {new Intl.NumberFormat("en-ET", {
+                  {new Intl.NumberFormat("en-US", {
                     style: "currency",
-                    currency: "ETB",
+                    currency: "USD",
                   }).format(course.price)}
                 </span>
               </div>
