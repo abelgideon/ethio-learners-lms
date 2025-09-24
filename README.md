@@ -1,4 +1,4 @@
-## Ethio Learners — LMS (Next.js 15)
+## Ethio Learners LMS
 
 Modern learning management system built with Next.js App Router. It supports public course browsing, admin course management (chapters/lessons, drag-and-drop ordering), secure media uploads to S3-compatible storage, Stripe payments and enrollments, Better Auth (GitHub + Email OTP) with admin support, transactional emails via Resend, and request protection via Arcjet.
 
