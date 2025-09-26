@@ -18,7 +18,7 @@ export const auth = betterAuth({
   },
   plugins: [
     emailOTP({
-      async sendVerificationOTP({ email, otp }) {
+      async sendVerificationOTP({ otp }) {
         await resend.emails.send({
           from: "Ethio Learners <onboarding@resend.dev>",
           to: ["abelgideontk7@gmail.com"],

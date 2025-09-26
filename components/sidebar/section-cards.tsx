@@ -2,8 +2,6 @@ import {
   IconBook,
   IconPlaylistX,
   IconShoppingCart,
-  IconTrendingDown,
-  IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
 
