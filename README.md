@@ -1,177 +1,154 @@
-## Ethio Learners LMS
+# Ethio Learners LMS
 
-Modern learning management system built with Next.js App Router. It supports public course browsing, admin course management (chapters/lessons, drag-and-drop ordering), secure media uploads to S3-compatible storage, Stripe payments and enrollments, Better Auth (GitHub + Email OTP) with admin support, transactional emails via Resend, and request protection via Arcjet.
+EthioLearners is a full‑stack Learning Management System for creating, publishing, and selling online courses. Learners can browse public courses, purchase with Stripe, enroll, and track lesson progress; instructors/admins can create and manage courses, chapters, and lessons with rich content and media uploads.
 
-Visit in development at [http://localhost:3000](http://localhost:3000).
+## Features
 
-### Tech Stack
+- **User Authentication:** Secure login via Better Auth (with GitHub OAuth) and protected routes.
+- **Course Catalog:** Public course listings with categories, levels, pricing, and detailed pages.
+- **Purchases & Enrollment:** Stripe-powered one‑time payments and automatic enrollment on success.
+- **Lesson Player & Progress:** Watch lessons and auto‑track completion progress per user.
+- **Rich Text Content:** Tiptap editor for course descriptions and lesson content.
+- **Media Uploads:** S3-compatible storage for thumbnails and videos with presigned uploads.
+- **Admin Dashboard:** Create/edit courses, chapters, and lessons; manage publishing and pricing.
+- **Responsive UI:** Modern, accessible components built with Next.js, Tailwind, and Radix UI.
 
-- **Framework**: Next.js 15 (App Router, Server Actions, React 19)
-- **Database/ORM**: PostgreSQL + Prisma
-- **Auth**: Better Auth (GitHub OAuth + Email OTP, admin plugin)
-- **Payments**: Stripe (checkout + webhooks)
-- **Storage**: S3-compatible (presigned uploads)
-- **Email**: Resend
-- **Security**: Arcjet middleware (bot protection, shields, rate limits)
-- **UI**: Tailwind CSS 4, Radix UI, ShadCN-inspired components, TipTap editor
+## Tech Stack
 
-### Features
-
-- **Public**: Course catalog, course detail pages, slug-based routing
-- **Auth**: GitHub OAuth, Email OTP verification, sessions stored in DB
-- **Admin**: Create/edit courses, chapters, and lessons; reorder via DnD; delete flows
-- **Media**: Direct S3 uploads for images/video; signed upload/delete routes
-- **Payments**: Stripe checkout, webhook to activate enrollments
-- **Access Control**: Middleware protects `/admin` route tree
-
----
+- **Framework:** Next.js 15 (App Router), React 19, TypeScript
+- **Database & ORM:** PostgreSQL, Prisma
+- **Auth:** Better Auth (with GitHub OAuth)
+- **Payments:** Stripe (webhooks for fulfillment)
+- **Email:** Resend
+- **Storage:** AWS S3 compatible (custom endpoint supported)
+- **Validation:** Zod with `@t3-oss/env-nextjs`
+- **UI:** Tailwind CSS v4, Radix UI, shadcn‑style components
+- **Other:** Arcjet (bot/abuse protection), Recharts, DnD Kit
 
 ## Project Structure
 
-Key directories only:
+```
+lms/
+│
+├── app/                    # Next.js App Router routes
+│   ├── (public)/           # Public pages (home, courses, course detail)
+│   ├── (auth)/             # Auth routes (login, verify)
+│   ├── admin/              # Admin dashboard for managing content
+│   ├── dashboard/          # Learner dashboard and lesson player
+│   └── api/                # Route handlers (auth, s3, stripe webhook)
+│
+├── components/             # UI components (ui, editor, uploader, sidebar)
+├── hooks/                  # Reusable React hooks
+├── lib/                    # Server libs (auth, db, env, stripe, s3)
+├── prisma/                 # Prisma schema
+└── public/                 # Static assets
+```
 
-- `app/(public)`: Public pages, course catalog and detail
-- `app/(auth)`: Auth pages (login, verify-request)
-- `app/admin`: Admin dashboard for courses/chapters/lessons
-- `app/api`: API routes (auth, S3 upload/delete, Stripe webhook)
-- `lib`: Clients and utilities (Prisma, auth, env, S3, Stripe, Arcjet, Resend)
-- `prisma`: Prisma schema
-- `components`: UI, editor, sidebar, file uploader
+## Getting Started
 
----
+### Prerequisites
 
-## Prerequisites
+- Node.js 18+ (or 20+ recommended)
+- pnpm (recommended) or npm
+- A PostgreSQL database
+- Stripe account (for test mode)
 
-- Node.js 20+
-- pnpm (recommended) or npm/yarn
-- PostgreSQL database
-- Stripe account, Resend account
-- S3-compatible bucket (e.g., Cloudflare R2, MinIO, AWS S3)
-
----
-
-## Environment Variables
-
-Validated via `@t3-oss/env-nextjs` in `lib/env.ts`.
-
-Server-side:
-
-- `DATABASE_URL`
-- `BETTER_AUTH_SECRET`
-- `BETTER_AUTH_URL` (e.g., `http://localhost:3000` in dev)
-- `AUTH_GITHUB_CLIENT_ID`
-- `AUTH_GITHUB_CLIENT_SECRET`
-- `RESEND_API_KEY`
-- `ARCJET_KEY`
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `AWS_ENDPOINT_URL_S3` (e.g., `https://<account>.r2.cloudflarestorage.com`)
-- `AWS_ENDPOINT_URL_IAM`
-- `AWS_REGION`
-- `STRIPE_SECRET_KEY`
-- `STRIPE_WEBHOOK_SECRET`
-
-Client-side:
-
-- `NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES`
-
-Create a `.env.local` with the variables above before running the app.
-
----
-
-## Getting Started (Local Dev)
-
-Install deps and generate Prisma client:
+### 1) Install dependencies
 
 ```bash
 pnpm install
-pnpm prisma migrate dev --name init
-pnpm prisma generate
+# or
+npm install
 ```
 
-Run the dev server:
+### 2) Environment variables
+
+Create a `.env` file in the project root with at least the following variables. Adjust values to your environment.
+
+```bash
+DATABASE_URL="postgresql://user:password@localhost:5432/ethiolearners"
+
+# Better Auth
+BETTER_AUTH_SECRET="replace-with-random-secret"
+BETTER_AUTH_URL="http://localhost:3000"
+
+# GitHub OAuth (used by Better Auth)
+AUTH_GITHUB_CLIENT_ID="gh-client-id"
+AUTH_GITHUB_CLIENT_SECRET="gh-client-secret"
+
+# Email (Resend)
+RESEND_API_KEY="re_..."
+
+# Arcjet (optional)
+ARCJET_KEY="aj_..."
+
+# S3 (or S3-compatible) storage
+AWS_ACCESS_KEY_ID="..."
+AWS_SECRET_ACCESS_KEY="..."
+AWS_ENDPOINT_URL_S3="https://s3.your-endpoint.com"   # e.g., Cloudflare R2/Bunny/AWS
+AWS_ENDPOINT_URL_IAM="https://iam.your-endpoint.com" # if applicable
+AWS_REGION="us-east-1"
+NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES="your-bucket-name"
+
+# Stripe
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..." # set after creating a local webhook
+```
+
+### 3) Database setup
+
+```bash
+# generate prisma client
+pnpm prisma generate
+
+# create tables in your database based on schema
+pnpm prisma db push
+```
+
+### 4) Run the app
 
 ```bash
 pnpm dev
+# App runs at http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Payments (Stripe Test Mode)
 
-### Useful Scripts
+- To purchase a course in test mode, use the sandbox card:
+  - Card: `4242 4242 4242 4242`
+  - Expiration: `04/42`
+  - CVC: `424`
+- Ensure `STRIPE_SECRET_KEY` is a test key and your webhook is configured.
+
+### Webhook setup (local)
 
 ```bash
-pnpm dev         # Next.js dev (Turbopack)
-pnpm build       # Production build (Turbopack)
-pnpm start       # Start production server
-pnpm lint        # Run ESLint
+# in another terminal, forward Stripe events to your local app
+stripe listen --events checkout.session.completed --forward-to localhost:3000/api/webhook/stripe
+
+# copy the printed signing secret into STRIPE_WEBHOOK_SECRET
 ```
 
----
+## Key API Routes
 
-## Database (Prisma)
+- `POST /api/s3/upload` – Request a presigned URL to upload media
+- `POST /api/s3/delete` – Delete uploaded media by key
+- `POST /api/webhook/stripe` – Stripe checkout webhook (enrollment fulfillment)
+- `GET /api/auth/...` – Auth routes managed by Better Auth
 
-- Schema: `prisma/schema.prisma`
-- Generated client output: `lib/generated/prisma`
-- Models include `User`, `Session`, `Account`, `Verification`, `Course`, `Chapter`, `Lesson`, `Enrollment`
-- Run migrations: `pnpm prisma migrate dev`
+## Live Demo
 
----
+You can view the live application here: `https://ethiolearners.vercel.app`
 
-## Authentication (Better Auth)
-
-- Server setup: `lib/auth.ts` with Prisma adapter and plugins: GitHub provider, Email OTP, `admin()`
-- Client setup: `lib/auth-client.ts` with `emailOTPClient()` and `adminClient()`
-- Middleware: `middleware.ts` protects all routes and specifically enforces auth for `/admin`
-- Configure GitHub OAuth with your app credentials
-
----
-
-## Storage (S3-compatible)
-
-- S3 client: `lib/S3Client.ts` uses `AWS_ENDPOINT_URL_S3` and region `auto`
-- Upload/delete API routes under `app/api/s3/*` provide presigned operations
-- Public image host is allowed in `next.config.ts` under `images.remotePatterns`
-
----
-
-## Payments (Stripe)
-
-- Stripe client: `lib/stripe.ts`
-- Webhook route: `app/api/webhook/stripe/route.ts`
-- Set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`
-
-Local webhook forwarding (example):
+## Scripts
 
 ```bash
-stripe listen --forward-to localhost:3000/api/webhook/stripe
+pnpm dev     # start dev server (Next.js + Turbopack)
+pnpm build   # production build
+pnpm start   # run production server
+pnpm lint    # run ESLint
 ```
-
----
-
-## Email (Resend)
-
-- Config: `lib/resend.ts`
-- Used by Better Auth Email OTP in `lib/auth.ts`
-
----
-
-## Security (Arcjet)
-
-- Base config: `lib/arcjet.ts` (shield, characteristics)
-- Middleware: `middleware.ts` uses Arcjet with `detectBot` and allows `STRIPE_WEBHOOK` category
-- Set `ARCJET_KEY` from your Arcjet dashboard
-
----
-
-## Contributing
-
-1. Create a feature branch
-2. Make changes with clear commits
-3. Ensure `pnpm lint` passes
-4. Open a PR
-
----
 
 ## License
 
-Proprietary. All rights reserved unless otherwise stated.
+This project is licensed under the ISC License.
